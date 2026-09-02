@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Escape The Room</title>
+
+    <link rel="stylesheet" href="game.css">
+</head>
+
+<body>
+
+    <!-- HOME SCREEN -->
+
+    <div id="homeScreen" class="home-screen">
+
+        <div class="home-content">
+
+            <p class="mini-title">
+                DUNGEON ADVENTURE
+            </p>
+
+            <h1 class="main-title">
+                ESCAPE
+                <span>THE ROOM</span>
+            </h1>
+
+            <p class="subtitle">
+                Find the key. Avoid the enemies. Escape alive.
+            </p>
+
+            <button
+                id="playButton"
+                class="main-button play-button"
+            >
+                ▶ PLAY
+            </button>
+
+            <button
+                id="shareButton"
+                class="main-button share-button"
+            >
+                🔗 SHARE WITH OTHERS
+            </button>
+
+            <div class="social-area">
+
+                <p>FOLLOW ME</p>
+
+                <div class="social-links">
+
+                    <a
+                        href="https://www.instagram.com/@legend_ffx2"
+                        id="instagramLink"
+                        target="_blank"
+                    >
+                        IG
+                    </a>
+
+                    <a
+                        href="https://www.tiktok.com/@legend_ffx2"
+                        id="tiktokLink"
+                        target="_blank"
+                    >
+                        TT
+                    </a>
+
+                    <a
+                        href="https://www.youtube.com/@legend_ffx2"
+                        id="youtubeLink"
+                        target="_blank"
+                    >
+                        YT
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- GAME -->
+
+    <div
+        id="gameScreen"
+        class="game-wrapper hidden-screen"
+    >
+
+        <header class="game-header">
+
+            <div>
+                SCORE:
+                <span id="score">0000</span>
+            </div>
+
+            <h2>
+                ESCAPE THE ROOM
+            </h2>
+
+            <div>
+                LIVES:
+                <span id="lives">3</span>
+            </div>
+
+        </header>
+
+        <div class="mission">
+            🔑 FIND THE KEY AND REACH THE EXIT
+        </div>
+
+        <div class="canvas-box">
+
+            <canvas
+                id="gameCanvas"
+                width="900"
+                height="600"
+            ></canvas>
+
+        </div>
+
+        <div class="controls">
+
+            <span>⬅️ ➡️ MOVE</span>
+
+            <span>⬆️ ⬇️ CLIMB</span>
+
+            <span>SPACE = JUMP</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- WIN / GAME OVER -->
+
+    <div
+        id="gameMessage"
+        class="game-message hidden-message"
+    >
+
+        <div class="message-box">
+
+            <h2 id="messageTitle">
+                YOU WIN!
+            </h2>
+
+            <p id="messageText">
+                You escaped!
+            </p>
+
+            <button id="restartButton">
+                PLAY AGAIN
+            </button>
+
+            <button id="homeButton">
+                HOME
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="game.js"></script>
+
+</body>
+
+</html>

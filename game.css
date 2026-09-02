@@ -1,0 +1,514 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: red;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #050608;
+    color: white;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    overflow-x: hidden;
+}
+
+
+/* ========================= */
+/* HOME SCREEN */
+/* ========================= */
+
+.home-screen {
+    position: fixed;
+
+    inset: 0;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #202936 0%,
+            #10151d 48%,
+            #040506 100%
+        );
+
+    z-index: 1000;
+}
+
+.home-screen::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+}
+
+.home-screen::after {
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(210, 65, 45, 0.16),
+            transparent 68%
+        );
+
+    border-radius: 50%;
+
+    filter: blur(15px);
+}
+
+.home-content {
+    position: relative;
+
+    z-index: 5;
+
+    width: 90%;
+    max-width: 650px;
+}
+
+.mini-title {
+    color: #e15b48;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 7px;
+
+    margin-bottom: 22px;
+}
+
+.main-title {
+    color: white;
+
+    font-size: 75px;
+
+    line-height: 0.9;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 25px;
+
+    text-shadow:
+        0 5px 0 #4c1713,
+        0 0 25px rgba(255, 75, 50, 0.2);
+}
+
+.main-title span {
+    display: block;
+
+    color: #e45240;
+
+    font-size: 53px;
+
+    margin-top: 17px;
+}
+
+.subtitle {
+    color: #9aa0a9;
+
+    font-size: 15px;
+
+    margin-bottom: 38px;
+}
+
+.main-button {
+    width: 310px;
+
+    max-width: 90%;
+
+    display: block;
+
+    margin: 14px auto;
+
+    padding: 16px 20px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    border-radius: 4px;
+}
+
+.play-button {
+    color: white;
+
+    background:
+        linear-gradient(
+            #e25544,
+            #a93026
+        );
+
+    border: 2px solid #ff7c67;
+
+    box-shadow:
+        0 5px 0 #621c17,
+        0 0 25px rgba(220, 60, 40, 0.22);
+}
+
+.play-button:hover {
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    box-shadow:
+        0 8px 0 #621c17,
+        0 0 30px rgba(220, 60, 40, 0.35);
+}
+
+.share-button {
+    color: #d7dce2;
+
+    background: #151b24;
+
+    border: 2px solid #3a4655;
+}
+
+.share-button:hover {
+    background: #202936;
+
+    transform: scale(1.03);
+}
+
+.social-area {
+    margin-top: 40px;
+}
+
+.social-area p {
+    color: #666e78;
+
+    font-size: 11px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 15px;
+}
+
+.social-links {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+}
+
+.social-links a {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    border: 2px solid #404955;
+
+    border-radius: 50%;
+
+    background: #141a22;
+
+    transition: 0.2s;
+}
+
+.social-links a:hover {
+    background: #d94e3d;
+
+    border-color: #ff806c;
+
+    transform: translateY(-4px);
+}
+
+
+/* ========================= */
+/* GAME */
+/* ========================= */
+
+.game-wrapper {
+    width: 960px;
+
+    max-width: 96vw;
+
+    margin: 25px auto;
+
+    text-align: center;
+}
+
+.hidden-screen {
+    display: none;
+}
+
+.game-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 13px 20px;
+
+    background:
+        linear-gradient(
+            #1d232d,
+            #12171e
+        );
+
+    border:
+        4px solid #3a4655;
+
+    border-bottom: none;
+
+    color: #ffd95c;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.game-header h2 {
+    color: white;
+
+    font-size: 25px;
+
+    letter-spacing: 4px;
+}
+
+.mission {
+    padding: 10px;
+
+    color: #ffd84b;
+
+    background: #11161c;
+
+    border-left:
+        4px solid #3a4655;
+
+    border-right:
+        4px solid #3a4655;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+.canvas-box {
+    border-left:
+        4px solid #3a4655;
+
+    border-right:
+        4px solid #3a4655;
+
+    border-bottom:
+        4px solid #3a4655;
+
+    background: black;
+
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+#gameCanvas {
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    image-rendering: pixelated;
+}
+
+.controls {
+    padding: 13px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 35px;
+
+    background: #11161c;
+
+    border:
+        4px solid #3a4655;
+
+    border-top: none;
+
+    color: #bec5ce;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+/* ========================= */
+/* GAME MESSAGE */
+/* ========================= */
+
+.game-message {
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background:
+        rgba(0, 0, 0, 0.85);
+
+    z-index: 2000;
+}
+
+.hidden-message {
+    display: none;
+}
+
+.message-box {
+    width: 420px;
+
+    max-width: 90%;
+
+    padding: 40px;
+
+    text-align: center;
+
+    background: #151b23;
+
+    border:
+        4px solid #d84d3d;
+
+    box-shadow:
+        0 0 40px rgba(220, 60, 40, 0.3);
+}
+
+.message-box h2 {
+    color: #ffd84b;
+
+    font-size: 35px;
+
+    margin-bottom: 15px;
+}
+
+.message-box p {
+    color: #d0d4da;
+
+    margin-bottom: 25px;
+}
+
+.message-box button {
+    width: 180px;
+
+    padding: 12px;
+
+    margin: 7px;
+
+    color: white;
+
+    background: #b53c31;
+
+    border: 2px solid #ee6856;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.message-box button:hover {
+    background: #d54e40;
+}
+
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media (max-width: 700px) {
+
+    .main-title {
+        font-size: 48px;
+    }
+
+    .main-title span {
+        font-size: 34px;
+    }
+
+    .game-header h2 {
+        font-size: 15px;
+    }
+
+    .game-header {
+        font-size: 12px;
+    }
+
+    .mission {
+        font-size: 11px;
+    }
+
+    .controls {
+        gap: 10px;
+
+        flex-wrap: wrap;
+
+        font-size: 10px;
+    }
+}
