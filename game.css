@@ -446,44 +446,69 @@ canvas {
     background: rgba(124,92,255,.82) !important;
   }
 }
-/* ===== MOBILE SCREEN FIX ===== */
+/* ===== MOBILE GAME FIX ===== */
 
 @media (max-width: 760px), (pointer: coarse) {
 
-    .screen {
-        height: 100dvh;
-        overflow: hidden;
-    }
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
 
-    .game-shell {
-        width: 100%;
-        height: 100dvh;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-    }
+  #gameScreen {
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
 
-    .canvas-wrap {
-        flex: 0 0 auto;
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
-        max-height: calc(100dvh - 150px);
-    }
+  .game-shell {
+    width: 100% !important;
+    height: 100dvh !important;
+    padding: 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
 
-    #gameCanvas {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
+  .topbar {
+    flex: 0 0 52px !important;
+    height: 52px !important;
+  }
 
-    .mobile-controls {
-        display: flex;
-        flex: 1;
-        min-height: 86px;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 8px;
-    }
+  .canvas-wrap {
+    width: 100% !important;
+
+    /* Force game area to stay wide on phones */
+    height: 56vw !important;
+    flex: 0 0 56vw !important;
+
+    max-height: calc(100dvh - 165px) !important;
+    min-height: 0 !important;
+
+    border-radius: 16px !important;
+  }
+
+  #gameCanvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+  }
+
+  .mobile-controls {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    min-height: 90px !important;
+    width: 100% !important;
+
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 8px !important;
+  }
+
+  .control-btn {
+    width: 68px !important;
+    height: 68px !important;
+  }
 }
