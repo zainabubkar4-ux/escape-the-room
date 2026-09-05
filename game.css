@@ -478,6 +478,7 @@ canvas {
 
   .canvas-wrap {
     width: 100% !important;
+    overflow: visible !important;
 
     /* Force game area to stay wide on phones */
     height: 56vw !important;
