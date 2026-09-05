@@ -1,176 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Escape The Room</title>
-
-    <link rel="stylesheet" href="game.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#090b12" />
+  <title>Escape The Room </title>
+  <link rel="stylesheet" href="game.css" />
 </head>
-
 <body>
+  <main id="app">
+    <section id="homeScreen" class="screen active">
+      <div class="menu-card">
+        <div class="eyebrow">ZAIN CC </div>
+        <h1>ESCAPE<br><span>THE ROOM</span></h1>
+        <p class="subtitle">30 levels • PC + Mobile</p>
 
-    <!-- HOME SCREEN -->
+        <div class="menu-buttons">
+          <button id="playBtn" class="primary-btn">▶ PLAY</button>
+          <button id="levelsBtn">🗺 LEVELS</button>
+          <button id="howBtn">📱 HOW TO PLAY</button>
+          <button id="shareBtn">🔗 SHARE WITH OTHERS</button>
+        </div>
 
-    <div id="homeScreen" class="home-screen">
+        <div class="socials">
+          <span>IG</span><span>TT</span><span>YT</span>
+          <strong>@Legend_ffx2</strong>
+        </div>
+      </div>
+    </section>
 
-        <div class="home-content">
+    <section id="gameScreen" class="screen">
+      <div class="game-shell">
+        <div class="topbar">
+          <button id="homeBtn" class="icon-btn" aria-label="Home">⌂</button>
+          <div class="level-title">LEVEL <span id="levelNumber">01</span></div>
+          <div class="top-actions">
+            <button id="restartBtn" class="icon-btn" aria-label="Restart">↻</button>
+            <button id="pauseBtn" class="icon-btn" aria-label="Pause">Ⅱ</button>
+          </div>
+        </div>
 
-            <p class="mini-title">
-                DUNGEON ADVENTURE
-            </p>
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" width="960" height="540"></canvas>
 
-            <h1 class="main-title">
-                ESCAPE
-                <span>THE ROOM</span>
-            </h1>
+          <div id="messageBox" class="message-box hidden"></div>
 
-            <p class="subtitle">
-                Find the key. Avoid the enemies. Escape alive.
-            </p>
-
-            <button
-                id="playButton"
-                class="main-button play-button"
-            >
-                ▶ PLAY
-            </button>
-
-            <button
-                id="shareButton"
-                class="main-button share-button"
-            >
-                🔗 SHARE WITH OTHERS
-            </button>
-
-            <div class="social-area">
-
-                <p>FOLLOW ME</p>
-
-                <div class="social-links">
-
-                    <a
-                        href="https://www.instagram.com/@legend_ffx2"
-                        id="instagramLink"
-                        target="_blank"
-                    >
-                        IG
-                    </a>
-
-                    <a
-                        href="https://www.tiktok.com/@legend_ffx2"
-                        id="tiktokLink"
-                        target="_blank"
-                    >
-                        TT
-                    </a>
-
-                    <a
-                        href="https://www.youtube.com/@legend_ffx2"
-                        id="youtubeLink"
-                        target="_blank"
-                    >
-                        YT
-                    </a>
-
-                </div>
-
+          <div id="pauseOverlay" class="overlay hidden">
+            <div class="overlay-card small">
+              <h2>PAUSED</h2>
+              <button id="resumeBtn" class="primary-btn">RESUME</button>
+              <button id="pauseHomeBtn">HOME</button>
             </div>
+          </div>
 
-        </div>
-
-    </div>
-
-
-    <!-- GAME -->
-
-    <div
-        id="gameScreen"
-        class="game-wrapper hidden-screen"
-    >
-
-        <header class="game-header">
-
-            <div>
-                SCORE:
-                <span id="score">0000</span>
+          <div id="completeOverlay" class="overlay hidden">
+            <div class="overlay-card">
+              <div class="trophy">✓</div>
+              <h2 id="completeTitle">LEVEL COMPLETE</h2>
+              <p id="completeText">Nice escape!</p>
+              <button id="nextBtn" class="primary-btn">NEXT LEVEL →</button>
+              <button id="completeHomeBtn">HOME</button>
             </div>
-
-            <h2>
-                ESCAPE THE ROOM
-            </h2>
-
-            <div>
-                LIVES:
-                <span id="lives">3</span>
-            </div>
-
-        </header>
-
-        <div class="mission">
-            🔑 FIND THE KEY AND REACH THE EXIT
+          </div>
         </div>
 
-        <div class="canvas-box">
+        <div id="mobileControls" class="mobile-controls">
+          <div class="move-controls">
+            <button id="leftBtn" class="control-btn">◀</button>
+            <button id="rightBtn" class="control-btn">▶</button>
+          </div>
+          <button id="jumpBtn" class="control-btn jump-btn">⬆</button>
+        </div>
+      </div>
+    </section>
 
-            <canvas
-                id="gameCanvas"
-                width="900"
-                height="600"
-            ></canvas>
+    <section id="levelsScreen" class="screen">
+      <div class="panel">
+        <div class="panel-head">
+          <button class="backBtn icon-btn">←</button>
+          <h2>SELECT LEVEL</h2>
+          <span></span>
+        </div>
+        <div id="levelGrid" class="level-grid"></div>
+      </div>
+    </section>
 
+    <section id="howScreen" class="screen">
+      <div class="panel narrow">
+        <div class="panel-head">
+          <button class="backBtn icon-btn">←</button>
+          <h2>HOW TO PLAY</h2>
+          <span></span>
         </div>
 
-        <div class="controls">
-
-            <span>⬅️ ➡️ MOVE</span>
-
-            <span>⬆️ ⬇️ CLIMB</span>
-
-            <span>SPACE = JUMP</span>
-
+        <div class="how-card">
+          <h3>💻 PC</h3>
+          <p><b>A / ←</b> move left</p>
+          <p><b>D / →</b> move right</p>
+          <p><b>W / ↑ / Space</b> jump</p>
+          <p><b>R</b> restart level</p>
+          <p><b>Esc</b> pause</p>
         </div>
 
-    </div>
-
-
-    <!-- WIN / GAME OVER -->
-
-    <div
-        id="gameMessage"
-        class="game-message hidden-message"
-    >
-
-        <div class="message-box">
-
-            <h2 id="messageTitle">
-                YOU WIN!
-            </h2>
-
-            <p id="messageText">
-                You escaped!
-            </p>
-
-            <button id="restartButton">
-                PLAY AGAIN
-            </button>
-
-            <button id="homeButton">
-                HOME
-            </button>
-
+        <div class="how-card">
+          <h3>📱 MOBILE</h3>
+          <p>Use the on-screen <b>◀ ▶</b> buttons to move.</p>
+          <p>Tap <b>⬆</b> to jump.</p>
         </div>
 
-    </div>
+        <div class="how-card">
+          <h3>🎯 GOAL</h3>
+          <p>Reach the exit door. Some levels require you to collect a key first. Avoid spikes and traps.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
-
-    <script src="game.js"></script>
-
+  <script src="game.js"></script>
 </body>
-
 </html>
