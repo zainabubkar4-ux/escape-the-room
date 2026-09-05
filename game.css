@@ -512,3 +512,35 @@ canvas {
     height: 68px !important;
   }
 }
+/* ===== MOBILE POPUP FIX ===== */
+
+@media (max-width: 760px), (pointer: coarse) {
+
+  #completeOverlay,
+  #pauseOverlay {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+
+    z-index: 9999 !important;
+
+    display: grid;
+    place-items: center;
+
+    padding: 20px !important;
+    overflow-y: auto !important;
+  }
+
+  #completeOverlay.hidden,
+  #pauseOverlay.hidden {
+    display: none !important;
+  }
+
+  .overlay-card {
+    width: min(390px, 92vw) !important;
+    max-height: calc(100dvh - 40px) !important;
+    overflow-y: auto !important;
+    padding: 24px !important;
+  }
+}
