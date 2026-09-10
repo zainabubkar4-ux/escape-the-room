@@ -4,8 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#090b12" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Escape The Room" />
   <title>Escape The Room </title>
-  <link rel="stylesheet" href="game.css? v=2" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <link rel="stylesheet" href="game.css" />
 </head>
 <body>
   <main id="app">
@@ -17,9 +23,11 @@
 
         <div class="menu-buttons">
           <button id="playBtn" class="primary-btn">▶ PLAY</button>
-          <button id="levelsBtn">🗺 LEVELS</button>
-          <button id="howBtn">📱 HOW TO PLAY</button>
+          <button id="endlessBtn"> ENDLESS MODE</button>
+          <button id="levelsBtn"> LEVELS</button>
+          <button id="howBtn"> HOW TO PLAY</button>
           <button id="shareBtn">🔗 SHARE WITH OTHERS</button>
+          <button id="installBtn"> INSTALL GAME</button>
         </div>
 
         <div class="socials">
