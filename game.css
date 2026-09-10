@@ -213,12 +213,16 @@ canvas {
 .overlay {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(5,7,12,.74);
   backdrop-filter: blur(8px);
   z-index: 10;
   padding: 18px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .overlay.hidden,
@@ -233,6 +237,10 @@ canvas {
   border: 1px solid var(--line);
   border-radius: 24px;
   text-align: center;
+  max-height: calc(100% - 4px);
+  overflow-y: auto;
+  flex: 0 0 auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .overlay-card.small {
@@ -444,5 +452,39 @@ canvas {
 
   .jump-btn {
     background: rgba(124,92,255,.82) !important;
+  }
+}
+
+
+/* PWA mobile fix: keep completion/pause dialogs usable on short screens */
+@media (max-height: 650px) {
+  .overlay {
+    align-items: flex-start;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .overlay-card {
+    margin: auto;
+    padding: 18px;
+  }
+
+  .trophy {
+    width: 54px;
+    height: 54px;
+    font-size: 28px;
+  }
+
+  .overlay-card h2 {
+    margin: 6px 0;
+  }
+
+  .overlay-card p {
+    margin: 6px 0;
+  }
+
+  .overlay-card button {
+    margin-top: 8px;
+    padding: 11px 14px;
   }
 }

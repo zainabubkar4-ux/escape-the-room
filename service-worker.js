@@ -1,4 +1,4 @@
-const CACHE_NAME = "escape-room-v3-infinite-troll";
+const CACHE_NAME = "escape-room-v4-mobile-fix";
 
 const APP_FILES = [
   "./",
