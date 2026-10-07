@@ -8,40 +8,1448 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Escape The Room" />
-  <title>Escape The Room </title>
+  <title>Escape The Room</title>
   <link rel="manifest" href="./manifest.json" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
-  <link rel="stylesheet" href="game.css" />
 </head>
-<body>
-  <main id="app">
-    <section id="homeScreen" class="screen active">
-      <div class="menu-card">
-        <div class="eyebrow">ZAIN CC </div>
-        <h1>ESCAPE<br><span>THE ROOM</span></h1>
-        <p class="subtitle">30 levels • PC + Mobile</p>
+<style>* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
 
-        <div class="menu-buttons">
-          <button id="playBtn" class="primary-btn">▶ PLAY</button>
-          <button id="endlessBtn"> ENDLESS MODE</button>
-          <button id="levelsBtn"> LEVELS</button>
-          <button id="howBtn"> HOW TO PLAY</button>
-          <button id="shareBtn">🔗 SHARE WITH OTHERS</button>
-          <button id="installBtn"> INSTALL GAME</button>
+:root {
+  --bg: #090b12;
+  --panel: rgba(17, 21, 34, 0.94);
+  --panel-2: #151a2a;
+  --text: #f7f9ff;
+  --muted: #9aa3b9;
+  --accent: #7c5cff;
+  --accent-2: #26d9ff;
+  --danger: #ff4f6d;
+  --success: #48e29b;
+  --line: rgba(255,255,255,.08);
+  --gold: #ffd74a;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(124,92,255,.18), transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(38,217,255,.12), transparent 30%),
+    var(--bg);
+  color: var(--text);
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+button {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s ease;
+}
+
+button:active {
+  transform: scale(.97);
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--accent), #5f40e7);
+  border-color: transparent;
+  box-shadow: 0 10px 30px rgba(124,92,255,.25);
+}
+
+.screen {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+
+.screen.active {
+  display: grid;
+  place-items: center;
+}
+
+/* ============================================================
+   INTRO SCREEN — ZAINUUUUUUUU effect
+   ============================================================ */
+#introScreen {
+  padding: 0;
+  overflow: hidden;
+  display: none;
+  place-items: initial;
+}
+
+#introScreen.active {
+  display: block;
+}
+
+.intro-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-flash {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.intro-name-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(48px, 12vw, 180px);
+  font-weight: 900;
+  letter-spacing: -4px;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 0 40px rgba(124,92,255,.8), 0 0 80px rgba(124,92,255,.4);
+}
+
+.intro-name-base {
+  color: white;
+  display: inline-block;
+  opacity: 0;
+  transform: scale(3) rotate(20deg);
+}
+
+.intro-name-base.stage1 {
+  animation: introBaseIn .5s ease-out forwards;
+}
+
+@keyframes introBaseIn {
+  0% { opacity: 0; transform: scale(3) rotate(20deg); filter: blur(20px); }
+  60% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.intro-name-shake {
+  animation: introShake .1s infinite;
+}
+
+@keyframes introShake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-3px, 2px) rotate(-1deg); }
+  50% { transform: translate(3px, -2px) rotate(1deg); }
+  75% { transform: translate(-2px, -3px) rotate(-0.5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.intro-u-container {
+  display: inline-flex;
+  align-items: center;
+}
+
+.intro-u {
+  color: var(--accent-2);
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50px) scale(0.3);
+  animation: uPopIn .3s ease-out forwards;
+  text-shadow: 0 0 30px rgba(38,217,255,.9), 0 0 60px rgba(38,217,255,.5);
+}
+
+@keyframes uPopIn {
+  0% { opacity: 0; transform: translateY(80px) scale(0.2) rotate(180deg); }
+  70% { opacity: 1; transform: translateY(-10px) scale(1.2) rotate(-10deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+.intro-u.chaos {
+  color: var(--danger);
+  animation: uChaos .1s infinite;
+}
+
+@keyframes uChaos {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate(-5px, 3px) rotate(-5deg) scale(1.1); }
+  50% { transform: translate(5px, -3px) rotate(5deg) scale(0.9); }
+  75% { transform: translate(-3px, -5px) rotate(-3deg) scale(1.05); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+
+.intro-screen-crack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+}
+
+.intro-screen-crack.cracking {
+  animation: crackFade .5s ease-out forwards;
+}
+
+@keyframes crackFade {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.crack-line {
+  position: absolute;
+  background: white;
+  box-shadow: 0 0 20px rgba(255,255,255,.9), 0 0 40px rgba(124,92,255,.7);
+  transform-origin: center;
+  opacity: 0;
+}
+
+.crack-line.show {
+  animation: crackShow .2s ease-out forwards;
+}
+
+@keyframes crackShow {
+  0% { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.intro-shards {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  overflow: hidden;
+}
+
+.intro-shard {
+  position: absolute;
+  background: linear-gradient(135deg, rgba(124,92,255,.4), rgba(38,217,255,.2));
+  border: 1px solid rgba(255,255,255,.3);
+  opacity: 0;
+}
+
+.intro-shard.shatter {
+  animation: shardFly 1.2s cubic-bezier(.4, 0, .8, 1) forwards;
+}
+
+@keyframes shardFly {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.3); }
+}
+
+.intro-bg-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(124,92,255,.8), rgba(38,217,255,.4), transparent 70%);
+  opacity: 0;
+  z-index: 5;
+}
+
+.intro-bg-flash.pulse {
+  animation: bgPulse .6s ease-out;
+}
+
+@keyframes bgPulse {
+  0% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(2); }
+}
+
+.intro-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  overflow: hidden;
+}
+
+.intro-particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.intro-particle.emit {
+  animation: particleEmit 1.5s ease-out forwards;
+}
+
+@keyframes particleEmit {
+  0% { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--px), var(--py)) scale(0.2); }
+}
+
+/* ============================================================
+   CREATE ID SCREEN
+   ============================================================ */
+#createIdScreen {
+  padding: 24px;
+  overflow: auto;
+  display: none;
+  place-items: center;
+}
+
+#createIdScreen.active {
+  display: grid;
+}
+
+.create-id-card {
+  width: min(480px, 94vw);
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(20,24,39,.97), rgba(10,12,20,.97));
+  box-shadow: 0 30px 90px rgba(0,0,0,.5), 0 0 60px rgba(124,92,255,.3);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.create-id-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(124,92,255,.4), rgba(38,217,255,.3), rgba(124,92,255,.4));
+  z-index: -1;
+  filter: blur(20px);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.create-id-eyebrow {
+  color: var(--accent-2);
+  font-size: 12px;
+  letter-spacing: 3px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.create-id-title {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin: 0 0 6px;
+  background: linear-gradient(135deg, white, #b0b8d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.create-id-sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+.avatar-upload-area {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  border: 3px dashed rgba(124,92,255,.5);
+  background: rgba(124,92,255,.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all .2s;
+}
+
+.avatar-upload-area:hover {
+  border-color: var(--accent);
+  background: rgba(124,92,255,.15);
+  transform: scale(1.05);
+}
+
+.avatar-upload-area img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-placeholder {
+  font-size: 42px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.avatar-placeholder small {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--accent-2);
+}
+
+.avatar-upload-area input[type="file"] {
+  display: none;
+}
+
+.input-label {
+  display: block;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.id-input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-family: inherit;
+  outline: none;
+  transition: all .2s;
+  margin-bottom: 8px;
+}
+
+.id-input:focus {
+  border-color: var(--accent);
+  background: rgba(124,92,255,.08);
+  box-shadow: 0 0 25px rgba(124,92,255,.3);
+}
+
+.id-input.invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 25px rgba(255,79,109,.3);
+}
+
+.input-error {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 700;
+  min-height: 18px;
+  text-align: left;
+  margin-bottom: 12px;
+  transition: opacity .2s;
+}
+
+.input-error.hidden {
+  opacity: 0;
+}
+
+.banned-info {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: left;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.banned-info strong {
+  color: var(--danger);
+}
+
+/* ============================================================
+   LOBBY
+   ============================================================ */
+#lobbyScreen {
+  padding: 0;
+  overflow: hidden;
+  display: none;
+  place-items: initial;
+  opacity: 0;
+  transition: opacity 1.2s ease-in;
+}
+
+#lobbyScreen.active {
+  display: block;
+}
+
+#lobbyScreen.fade-in {
+  opacity: 1;
+}
+
+.lobby-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #0a0d16;
+}
+
+#lobbyCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.lobby-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.lobby-hud > * {
+  pointer-events: auto;
+}
+
+.currency-display {
+  display: flex;
+  gap: 10px;
+}
+
+.currency-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(8,10,17,.85);
+  border: 1px solid rgba(255,215,74,.3);
+  font-weight: 900;
+  font-size: 15px;
+  backdrop-filter: blur(8px);
+}
+
+.currency-pill.coins {
+  color: var(--gold);
+  border-color: rgba(255,215,74,.5);
+  box-shadow: 0 0 20px rgba(255,215,74,.2);
+}
+
+.currency-pill.skills {
+  color: var(--accent-2);
+  border-color: rgba(38,217,255,.5);
+  box-shadow: 0 0 20px rgba(38,217,255,.2);
+}
+
+.player-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px 8px 8px;
+  border-radius: 24px;
+  background: rgba(8,10,17,.85);
+  border: 1px solid rgba(124,92,255,.4);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(124,92,255,.2);
+}
+
+.player-badge-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  object-fit: cover;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 16px;
+  color: white;
+  overflow: hidden;
+}
+
+.player-badge-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-badge-name {
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: white;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lobby-title {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.lobby-title h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 4px;
+  font-weight: 900;
+  text-shadow: 0 0 20px rgba(124,92,255,.8);
+  color: white;
+}
+
+.lobby-title p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+.lobby-actions {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 16px;
+  flex-wrap: wrap;
+  z-index: 5;
+}
+
+.lobby-actions button {
+  flex: 0 1 auto;
+  min-width: 90px;
+  padding: 12px 18px;
+  font-size: 13px;
+  background: rgba(8,10,17,.85);
+  backdrop-filter: blur(8px);
+  border-color: rgba(124,92,255,.3);
+}
+
+.lobby-actions button:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(124,92,255,.4);
+}
+
+.lobby-actions .play-btn-lobby {
+  background: linear-gradient(135deg, var(--accent), #5f40e7);
+  border-color: transparent;
+  min-width: 140px;
+  font-size: 16px;
+  box-shadow: 0 0 30px rgba(124,92,255,.5);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.interaction-prompt {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 24px;
+  background: rgba(8,10,17,.92);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-align: center;
+  z-index: 6;
+  animation: float 2s ease-in-out infinite;
+  box-shadow: 0 0 40px rgba(124,92,255,.5);
+  display: none;
+}
+
+.interaction-prompt.show {
+  display: block;
+}
+
+.interaction-prompt .key {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--accent);
+  border-radius: 8px;
+  margin-right: 8px;
+  font-size: 13px;
+}
+
+/* ============================================================
+   STORE
+   ============================================================ */
+#storeScreen {
+  padding: 0;
+  overflow: hidden;
+  display: none;
+  place-items: initial;
+}
+
+#storeScreen.active {
+  display: block;
+}
+
+.store-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0d1220, #080a11);
+}
+
+.store-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(8,10,17,.6);
+  flex-shrink: 0;
+}
+
+.store-header h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 3px;
+}
+
+.store-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.store-tab {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+}
+
+.store-tab.active {
+  background: linear-gradient(135deg, var(--accent), #5f40e7);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 0 20px rgba(124,92,255,.4);
+}
+
+.store-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  align-content: start;
+}
+
+.store-item {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(20,24,39,.95), rgba(10,12,20,.95));
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.store-item:hover {
+  border-color: rgba(124,92,255,.5);
+  box-shadow: 0 0 30px rgba(124,92,255,.2);
+  transform: translateY(-2px);
+}
+
+.store-item.owned { border-color: rgba(72,226,155,.5); }
+.store-item.equipped { border-color: var(--success); box-shadow: 0 0 25px rgba(72,226,155,.4); }
+
+.store-item-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+}
+
+.store-item-name {
+  text-align: center;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.store-item-desc {
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.4;
+  min-height: 30px;
+}
+
+.store-item-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 900;
+  font-size: 15px;
+  color: var(--gold);
+}
+
+.store-item-price.skill-price { color: var(--accent-2); }
+
+.store-item-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+.store-item-btn.equip { background: linear-gradient(135deg, var(--success), #2fb87a); border-color: transparent; }
+.store-item-btn.unequip { background: rgba(255,255,255,.08); }
+.store-item-btn.buy { background: linear-gradient(135deg, var(--accent), #5f40e7); border-color: transparent; }
+.store-item-btn.cant-afford { opacity: .5; cursor: not-allowed; }
+
+/* ============================================================
+   GAME SCREEN
+   ============================================================ */
+.game-shell {
+  width: min(1120px, 100vw);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.topbar {
+  height: 58px;
+  flex: 0 0 58px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.level-title { font-weight: 900; letter-spacing: 2px; }
+
+.top-actions {
+  justify-self: end;
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn { padding: 10px 14px; min-width: 44px; }
+
+.canvas-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #0a0d16;
+  box-shadow: inset 0 0 50px rgba(0,0,0,.4);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.mobile-controls {
+  flex: 0 0 96px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px 4px 0;
+  user-select: none;
+}
+
+.move-controls { display: flex; gap: 12px; }
+
+.control-btn {
+  width: 74px;
+  height: 74px;
+  padding: 0;
+  border-radius: 24px;
+  font-size: 26px;
+  background: rgba(255,255,255,.09);
+  touch-action: none;
+}
+
+.jump-btn { background: linear-gradient(135deg, var(--accent), #5b3fd8); }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5,7,12,.74);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  padding: 18px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.overlay.hidden,
+.message-box.hidden { display: none; }
+
+.overlay-card {
+  width: min(390px, 92%);
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  text-align: center;
+  max-height: calc(100% - 4px);
+  overflow-y: auto;
+  flex: 0 0 auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.overlay-card.small { max-width: 320px; }
+.overlay-card h2 { margin: 10px 0; }
+.overlay-card p { color: var(--muted); }
+.overlay-card button { width: 100%; margin-top: 10px; }
+
+.trophy {
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(72,226,155,.14);
+  color: var(--success);
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.reward-display {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.reward-pill {
+  padding: 10px 20px;
+  border-radius: 14px;
+  background: rgba(255,215,74,.1);
+  border: 1px solid rgba(255,215,74,.3);
+  color: var(--gold);
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.message-box {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(8,10,17,.86);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.panel {
+  width: min(900px, 94vw);
+  max-height: 92vh;
+  overflow: auto;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel);
+}
+
+.panel.narrow { max-width: 600px; }
+
+.panel-head {
+  position: sticky;
+  top: -22px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 12px 0 18px;
+  background: var(--panel);
+}
+
+.panel-head h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.panel-head .backBtn { justify-self: start; }
+
+.how-card {
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,.035);
+}
+
+.how-card h3 { margin: 0 0 12px; }
+.how-card p { color: var(--muted); line-height: 1.5; margin: 8px 0; }
+
+/* SETTINGS */
+.settings-group { margin-bottom: 20px; }
+.settings-group h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: var(--accent-2);
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255,255,255,.03);
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.setting-row label { font-weight: 700; font-size: 14px; }
+.setting-row input[type="range"] { flex: 1; max-width: 160px; accent-color: var(--accent); }
+
+.setting-row select {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: rgba(255,255,255,.12);
+  border-radius: 13px;
+  cursor: pointer;
+  transition: background .2s;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+}
+
+.toggle-switch.on { background: var(--accent); }
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: left .2s;
+}
+
+.toggle-switch.on::after { left: 24px; }
+
+.control-adjust-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.control-adjust-item {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255,255,255,.03);
+  text-align: center;
+}
+
+.control-adjust-item span {
+  display: block;
+  font-weight: 800;
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+.control-adjust-item .size-preview {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 10px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.08);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  transition: all .15s;
+}
+
+.control-adjust-item input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+/* ANIMATIONS */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124,92,255,.3); }
+  50% { box-shadow: 0 0 40px rgba(124,92,255,.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes countdownPop {
+  0% { transform: scale(2.5); opacity: 0; }
+  20% { transform: scale(1); opacity: 1; }
+  80% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.6); opacity: 0; }
+}
+
+@keyframes rotate360 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.primary-btn { position: relative; overflow: hidden; }
+
+.primary-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s infinite;
+}
+
+.message-box { animation: pulse-glow 1.5s ease-in-out infinite; }
+
+.icon-btn:hover {
+  background: rgba(124,92,255,.2);
+  border-color: var(--accent);
+}
+
+.countdown-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5,7,12,.9);
+  backdrop-filter: blur(16px);
+  z-index: 30;
+  overflow: hidden;
+}
+
+.countdown-overlay.hidden { display: none; }
+
+.countdown-overlay::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  border: 2px solid rgba(124,92,255,.3);
+  animation: rotate360 8s linear infinite;
+}
+
+.countdown-overlay::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  border: 1px dashed rgba(38,217,255,.3);
+  animation: rotate360 12s linear infinite reverse;
+}
+
+.countdown-number {
+  font-size: 160px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 60px rgba(124,92,255,.9), 0 0 120px rgba(124,92,255,.5);
+  animation: countdownPop 1s ease-out;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.effects-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.effects-overlay .vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.6) 100%);
+}
+
+.effects-overlay .scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,.02) 2px,
+    rgba(255,255,255,.02) 4px
+  );
+  opacity: .5;
+}
+
+.damage-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255,79,109,.4), transparent 70%);
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .1s;
+}
+
+.damage-flash.active { opacity: 1; }
+
+.skill-hud {
+  position: absolute;
+  top: 70px;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.skill-slot {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(8,10,17,.85);
+  border: 2px solid rgba(124,92,255,.5);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  position: relative;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 15px rgba(124,92,255,.3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 760px), (pointer: coarse) {
+  .mobile-controls { display: flex; }
+  .game-shell { padding: 6px; }
+  .topbar { height: 48px; flex-basis: 48px; }
+  .canvas-wrap { border-radius: 16px; }
+}
+
+@media (max-width: 520px) {
+  .panel { padding: 14px; }
+  .panel-head { top: -14px; }
+  .control-btn { width: 68px; height: 68px; }
+  .mobile-controls { flex-basis: 86px; }
+  .store-content { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .countdown-number { font-size: 110px; }
+  .lobby-actions button { min-width: 70px; padding: 10px 14px; font-size: 12px; }
+  .lobby-actions .play-btn-lobby { min-width: 110px; font-size: 14px; }
+  .create-id-card { padding: 24px 18px; }
+  .player-badge-name { max-width: 80px; font-size: 12px; }
+}
+
+@media (max-height: 650px) and (orientation: landscape) {
+  .topbar { height: 42px; flex-basis: 42px; }
+  .mobile-controls {
+    position: absolute;
+    inset: auto 14px 12px 14px;
+    z-index: 20;
+    height: 70px;
+    padding: 0;
+    pointer-events: none;
+  }
+  .mobile-controls button {
+    width: 60px;
+    height: 60px;
+    border-radius: 20px;
+    pointer-events: auto;
+    background: rgba(10,12,20,.72);
+  }
+  .jump-btn { background: rgba(124,92,255,.82) !important; }
+}
+
+@media (max-height: 650px) {
+  .overlay { align-items: flex-start; padding-top: 10px; padding-bottom: 10px; }
+  .overlay-card { margin: auto; padding: 18px; }
+  .trophy { width: 54px; height: 54px; font-size: 28px; }
+  .overlay-card h2 { margin: 6px 0; }
+  .overlay-card p { margin: 6px 0; }
+  .overlay-card button { margin-top: 8px; padding: 11px 14px; }
+}
+
+@media (pointer: coarse) and (min-width: 768px) {
+  .mobile-controls { display: flex !important; }
+  .game-shell { width: 100vw; }
+}
+</style>
+<body>
+  <div class="effects-overlay">
+    <div class="vignette"></div>
+    <div class="scanlines"></div>
+  </div>
+
+  <main id="app">
+    <!-- INTRO SCREEN -->
+    <section id="introScreen" class="screen active">
+      <div class="intro-container">
+        <div class="intro-bg-flash" id="introBgFlash"></div>
+        <div class="intro-particles" id="introParticles"></div>
+        <div class="intro-name-wrapper" id="introNameWrapper">
+          <span class="intro-name-base" id="introNameBase">ZAIN</span>
+          <span class="intro-u-container" id="introUContainer"></span>
+        </div>
+        <div class="intro-screen-crack" id="introCrack"></div>
+        <div class="intro-shards" id="introShards"></div>
+        <div class="intro-flash" id="introFlash"></div>
+      </div>
+    </section>
+
+    <!-- CREATE ID SCREEN -->
+    <section id="createIdScreen" class="screen">
+      <div class="create-id-card">
+        <div class="create-id-eyebrow">WELCOME TO</div>
+        <h1 class="create-id-title">ESCAPE THE ROOM</h1>
+        <p class="create-id-sub">Create your identity to enter the lobby</p>
+
+        <label for="avatarInput" class="avatar-upload-area" id="avatarUploadArea">
+          <div class="avatar-placeholder" id="avatarPlaceholder">
+            <span>📷</span>
+            <small>UPLOAD</small>
+          </div>
+          <input type="file" id="avatarInput" accept="image/*" />
+        </label>
+
+        <label class="input-label" for="idInput">YOUR NAME</label>
+        <input type="text" id="idInput" class="id-input" placeholder="Enter your name" maxlength="16" autocomplete="off" spellcheck="false" />
+        <div class="input-error hidden" id="idError"></div>
+
+        <div class="banned-info">
+          <strong>⚠ No toxic names allowed.</strong><br>
+          Names containing slurs, hate speech, or offensive words will be rejected.
         </div>
 
-        <div class="socials">
-          <span>IG</span><span>TT</span><span>YT</span>
-          <strong>@Legend_ffx2</strong>
+        <button id="continueBtn" class="primary-btn" disabled>CONTINUE →</button>
+      </div>
+    </section>
+
+    <!-- LOBBY -->
+    <section id="lobbyScreen" class="screen">
+      <div class="lobby-container">
+        <canvas id="lobbyCanvas" width="1400" height="800"></canvas>
+
+        <div class="lobby-title">
+          <h2>ESCAPE THE ROOM</h2>
+          <p>TROLL MODE ∞</p>
+        </div>
+
+        <div class="lobby-hud">
+          <div class="currency-display">
+            <div class="currency-pill coins">🪙 <span id="coinCount">0</span></div>
+            <div class="currency-pill skills">✨ <span id="skillCount">0</span></div>
+          </div>
+          <div class="player-badge" id="playerBadge">
+            <div class="player-badge-avatar" id="playerBadgeAvatar">?</div>
+            <div class="player-badge-name" id="playerBadgeName">Player</div>
+          </div>
+        </div>
+
+        <div id="interactionPrompt" class="interaction-prompt">
+          <span class="key">E</span> <span id="promptText">Talk to Trader</span>
+        </div>
+
+        <div class="lobby-actions">
+          <button id="storeBtn">🛒 STORE</button>
+          <button id="settingsBtn">⚙️ SETTINGS</button>
+          <button id="howBtn">❓ HOW TO PLAY</button>
+          <button id="playBtn" class="play-btn-lobby">▶ START RUN</button>
         </div>
       </div>
     </section>
 
+    <!-- STORE -->
+    <section id="storeScreen" class="screen">
+      <div class="store-container">
+        <div class="store-header">
+          <button id="storeBackBtn" class="icon-btn">←</button>
+          <h2>🛒 STORE</h2>
+          <div class="currency-pill coins">🪙 <span id="storeCoinCount">0</span></div>
+        </div>
+
+        <div class="store-tabs">
+          <div class="store-tab active" data-tab="skills">✨ SKILLS</div>
+          <div class="store-tab" data-tab="characters">🦸 CHARACTERS</div>
+          <div class="store-tab" data-tab="outfits">👕 OUTFITS</div>
+          <div class="store-tab" data-tab="bundles">📦 BUNDLES</div>
+        </div>
+
+        <div id="storeContent" class="store-content"></div>
+      </div>
+    </section>
+
+    <!-- GAME -->
     <section id="gameScreen" class="screen">
       <div class="game-shell">
         <div class="topbar">
-          <button id="homeBtn" class="icon-btn" aria-label="Home">⌂</button>
-          <div class="level-title">LEVEL <span id="levelNumber">01</span></div>
+          <button id="homeBtn" class="icon-btn" aria-label="Lobby">⌂</button>
+          <div class="level-title">TROLL <span id="levelNumber">01</span></div>
           <div class="top-actions">
             <button id="restartBtn" class="icon-btn" aria-label="Restart">↻</button>
             <button id="pauseBtn" class="icon-btn" aria-label="Pause">Ⅱ</button>
@@ -52,12 +1460,18 @@
           <canvas id="gameCanvas" width="960" height="540"></canvas>
 
           <div id="messageBox" class="message-box hidden"></div>
+          <div id="damageFlash" class="damage-flash"></div>
+          <div id="skillHud" class="skill-hud"></div>
+
+          <div id="countdownOverlay" class="countdown-overlay hidden">
+            <div id="countdownNumber" class="countdown-number">3</div>
+          </div>
 
           <div id="pauseOverlay" class="overlay hidden">
             <div class="overlay-card small">
               <h2>PAUSED</h2>
               <button id="resumeBtn" class="primary-btn">RESUME</button>
-              <button id="pauseHomeBtn">HOME</button>
+              <button id="pauseHomeBtn">LOBBY</button>
             </div>
           </div>
 
@@ -66,8 +1480,12 @@
               <div class="trophy">✓</div>
               <h2 id="completeTitle">LEVEL COMPLETE</h2>
               <p id="completeText">Nice escape!</p>
-              <button id="nextBtn" class="primary-btn">NEXT LEVEL →</button>
-              <button id="completeHomeBtn">HOME</button>
+              <div class="reward-display">
+                <div class="reward-pill">+<span id="rewardCoins">0</span> 🪙</div>
+                <div class="reward-pill" style="background:rgba(38,217,255,.1);border-color:rgba(38,217,255,.3);color:var(--accent-2)">+<span id="rewardSkills">0</span> ✨</div>
+              </div>
+              <button id="nextBtn" class="primary-btn">NEXT TROLL →</button>
+              <button id="completeHomeBtn">LOBBY</button>
             </div>
           </div>
         </div>
@@ -82,17 +1500,7 @@
       </div>
     </section>
 
-    <section id="levelsScreen" class="screen">
-      <div class="panel">
-        <div class="panel-head">
-          <button class="backBtn icon-btn">←</button>
-          <h2>SELECT LEVEL</h2>
-          <span></span>
-        </div>
-        <div id="levelGrid" class="level-grid"></div>
-      </div>
-    </section>
-
+    <!-- HOW TO PLAY -->
     <section id="howScreen" class="screen">
       <div class="panel narrow">
         <div class="panel-head">
@@ -106,6 +1514,7 @@
           <p><b>A / ←</b> move left</p>
           <p><b>D / →</b> move right</p>
           <p><b>W / ↑ / Space</b> jump</p>
+          <p><b>Q</b> dash (if equipped)</p>
           <p><b>R</b> restart level</p>
           <p><b>Esc</b> pause</p>
         </div>
@@ -118,12 +1527,104 @@
 
         <div class="how-card">
           <h3>🎯 GOAL</h3>
-          <p>Reach the exit door. Some levels require you to collect a key first. Avoid spikes and traps.</p>
+          <p>Survive the infinite troll rooms. Each room has new tricks. Collect coins and skill points to buy upgrades in the store.</p>
         </div>
+
+        <div class="how-card">
+          <h3>🏪 STORE</h3>
+          <p>Visit the store from the lobby to unlock characters, outfits, and special skills that help you in runs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settingsScreen" class="screen">
+      <div class="panel narrow">
+        <div class="panel-head">
+          <button class="backBtn icon-btn">←</button>
+          <h2>⚙️ SETTINGS</h2>
+          <span></span>
+        </div>
+
+        <div class="settings-group">
+          <h3>GRAPHICS</h3>
+          <div class="setting-row">
+            <label>Quality</label>
+            <select id="graphicsQuality">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label>Show Grid</label>
+            <div id="gridToggle" class="toggle-switch on"></div>
+          </div>
+          <div class="setting-row">
+            <label>Show Shadows</label>
+            <div id="shadowToggle" class="toggle-switch on"></div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>VOLUME</h3>
+          <div class="setting-row">
+            <label>Master</label>
+            <input type="range" id="masterVolume" min="0" max="100" value="80" />
+          </div>
+          <div class="setting-row">
+            <label>SFX</label>
+            <input type="range" id="sfxVolume" min="0" max="100" value="70" />
+          </div>
+          <div class="setting-row">
+            <label>Music</label>
+            <input type="range" id="musicVolume" min="0" max="100" value="50" />
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>CONTROL ADJUST</h3>
+          <div class="control-adjust-grid">
+            <div class="control-adjust-item">
+              <span>LEFT / RIGHT</span>
+              <div class="size-preview" id="moveSizePreview">◀ ▶</div>
+              <input type="range" id="moveBtnSize" min="50" max="100" value="74" />
+            </div>
+            <div class="control-adjust-item">
+              <span>JUMP</span>
+              <div class="size-preview" id="jumpSizePreview">⬆</div>
+              <input type="range" id="jumpBtnSize" min="50" max="100" value="74" />
+            </div>
+          </div>
+          <div class="setting-row" style="margin-top:10px;">
+            <label>Controls Position</label>
+            <select id="controlsPosition">
+              <option value="default">Default (bottom split)</option>
+              <option value="left">Left side</option>
+              <option value="right">Right side</option>
+              <option value="center">Center</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>DISPLAY</h3>
+          <div class="setting-row">
+            <label>Screen Mode</label>
+            <select id="screenMode">
+              <option value="auto" selected>Auto</option>
+              <option value="fit">Fit to Screen</option>
+              <option value="stretch">Stretch</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="resetSettingsBtn" style="margin-top:6px;">RESET TO DEFAULTS</button>
       </div>
     </section>
   </main>
 
+  <!-- JS will go in parts 2 and 3 -->
   <script src="game.js"></script>
 </body>
 </html>
